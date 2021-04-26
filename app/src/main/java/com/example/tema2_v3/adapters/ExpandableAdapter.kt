@@ -42,6 +42,8 @@ class ExpandableAdapter(
         }
     }
 
+    override fun getItemCount() = items.size
+
     class UnderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val titleView: TextView = itemView.findViewById(R.id.underitem_title)
         private val bodyView: TextView = itemView.findViewById(R.id.underitem_body)
@@ -74,12 +76,7 @@ class ExpandableAdapter(
         }
     }
 
-    private fun cleanItems(from: Int, delSize: Int) {
 
-        for (i in 0 until delSize) {
-            items.removeAt(from)
-        }
-    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentItem = items[position]
@@ -165,5 +162,11 @@ class ExpandableAdapter(
         return posts
     }
 
-    override fun getItemCount() = items.size
+    private fun cleanItems(from: Int, delSize: Int) {
+
+        for (i in 0 until delSize) {
+            items.removeAt(from)
+        }
+    }
+
 }

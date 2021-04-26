@@ -29,6 +29,8 @@ class AlbumsAdapter(
         }
     }
 
+    override fun getItemCount() = albums.size
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val albumRvItemView = inflater.inflate(R.layout.album_cell, parent, false)
@@ -47,7 +49,5 @@ class AlbumsAdapter(
 
         holder.bind(currentItem)
     }
-
-    override fun getItemCount() = albums.size
 
 }

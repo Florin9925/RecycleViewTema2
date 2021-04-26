@@ -31,8 +31,14 @@ class Fragment2(private val userId: Int) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_2, container, false)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is IActivityFragmentCommunication) {
+            this.activity = context
+        }
     }
 
     @SuppressLint("CutPasteId")
@@ -50,16 +56,20 @@ class Fragment2(private val userId: Int) : Fragment() {
                 { response: String? ->
                     val albums = getAlbumsFromJSON(JSONArray(response))
 
-                    view.findViewById<RecyclerView>(R.id.albums_recyclerview).adapter = AlbumsAdapter(albums, activity)
-                    view.findViewById<RecyclerView>(R.id.albums_recyclerview).layoutManager = LinearLayoutManager(this.context)
+                    view.findViewById<RecyclerView>(R.id.albums_recyclerview).adapter =
+                        AlbumsAdapter(albums, activity)
+                    view.findViewById<RecyclerView>(R.id.albums_recyclerview).layoutManager =
+                        LinearLayoutManager(this.context)
                 },
                 { volleyError ->
 
                     val albums = ArrayList<Album>()
                     albums.add(Album("$volleyError", -1))
 
-                    view.findViewById<RecyclerView>(R.id.albums_recyclerview).adapter = AlbumsAdapter(albums, activity)
-                    view.findViewById<RecyclerView>(R.id.albums_recyclerview).layoutManager = LinearLayoutManager(this.context)
+                    view.findViewById<RecyclerView>(R.id.albums_recyclerview).adapter =
+                        AlbumsAdapter(albums, activity)
+                    view.findViewById<RecyclerView>(R.id.albums_recyclerview).layoutManager =
+                        LinearLayoutManager(this.context)
                 }
             )
 
@@ -80,12 +90,6 @@ class Fragment2(private val userId: Int) : Fragment() {
         return albums
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is IActivityFragmentCommunication) {
-            this.activity = context
-        }
-    }
 
     companion object {
         @JvmStatic

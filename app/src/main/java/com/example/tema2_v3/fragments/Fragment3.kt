@@ -8,16 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.example.tema2_v3.R
 import com.example.tema2_v3.adapters.ImagesAdapter
 import com.example.tema2_v3.interfaces.IActivityFragmentCommunication
-import com.example.tema2_v3.interfaces.IExpandable
 import com.example.tema2_v3.models.Image
-import com.example.tema2_v3.utils.Constants.ALBUMS_URL
 import com.example.tema2_v3.utils.Constants.BASE_URL
 import com.example.tema2_v3.utils.Constants.PHOTOS_URL
 import com.example.tema2_v3.utils.Constants.URL
@@ -31,8 +28,14 @@ class Fragment3(private val albumId: Int) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_3, container, false)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is IActivityFragmentCommunication) {
+            this.activity = context
+        }
     }
 
     @SuppressLint("CutPasteId")
@@ -78,13 +81,6 @@ class Fragment3(private val albumId: Int) : Fragment() {
         }
 
         return images
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is IActivityFragmentCommunication) {
-            this.activity = context
-        }
     }
 
     companion object {

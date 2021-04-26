@@ -10,7 +10,6 @@ import com.example.tema2_v3.R
 import com.example.tema2_v3.models.Image
 import java.util.*
 import coil.load
-import coil.transform.RoundedCornersTransformation
 
 class ImagesAdapter(private val images: ArrayList<Image>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -24,6 +23,8 @@ class ImagesAdapter(private val images: ArrayList<Image>) :
 
         }
     }
+
+    override fun getItemCount() = images.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -39,6 +40,6 @@ class ImagesAdapter(private val images: ArrayList<Image>) :
         holder.bind(currentItem)
     }
 
-    override fun getItemCount() = images.size
+
 
 }

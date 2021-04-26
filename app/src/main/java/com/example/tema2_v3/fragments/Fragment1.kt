@@ -42,6 +42,13 @@ class Fragment1 : Fragment() {
         return inflater.inflate(R.layout.fragment_1, container, false)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is IActivityFragmentCommunication) {
+            this.activity = context
+        }
+    }
+
     @SuppressLint("CutPasteId")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -91,15 +98,11 @@ class Fragment1 : Fragment() {
         return users
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is IActivityFragmentCommunication) {
-            this.activity = context
-        }
-    }
 
     companion object {
         @JvmStatic
         fun newInstance() = Fragment1()
     }
+
+
 }
