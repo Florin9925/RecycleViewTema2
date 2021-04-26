@@ -1,52 +1,54 @@
-package com.example.tema2_v3.adapters;
+package com.example.tema2_v3.adapters
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.VolleyError
+import com.android.volley.toolbox.ImageLoader
+import com.android.volley.toolbox.ImageLoader.ImageContainer
+import com.android.volley.toolbox.ImageLoader.ImageListener
+import com.example.tema2_v3.R
+import com.example.tema2_v3.models.Image
+import com.example.tema2_v3.utils.VolleySingleton
+import java.util.*
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+class ImagesAdapter(private val albums: ArrayList<Image>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-import com.example.tema2_v3.R;
-import com.example.tema2_v3.models.Image;
-import com.example.tema2_v3.viewholders.ImageViewHolder;
+    class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val imageView: ImageView = itemView.findViewById(R.id.image)
 
-import java.util.ArrayList;
+        fun bind(image: Image) {
+            val imageViewUrl: String = image.imageUrl.toString() + ".png"
+            val imageLoader: ImageLoader =
+                VolleySingleton.getInstance(imageView.context.applicationContext).imageLoader
 
-public class ImagesAdapter extends RecyclerView.Adapter<ImageViewHolder> {
-    private ArrayList<Image> images;
-    private Context context;
-
-    public ImagesAdapter(Context context, ArrayList<Image> images) {
-        this.context = context;
-        this.images = images;
+            imageLoader[imageViewUrl, object : ImageListener {
+                override fun onResponse(response: ImageContainer, isImmediate: Boolean) {
+                    imageView.setImageBitmap(response.bitmap)
+                }
+                override fun onErrorResponse(error: VolleyError) {}
+            }]
+        }
     }
 
-    public ImagesAdapter(ArrayList<Image> images) {
-        this.images = images;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val imageRvItemView = inflater.inflate(R.layout.album_cell, parent, false)
+        return ImageViewHolder(imageRvItemView)
     }
 
-    @NonNull
-    @Override
-    public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.photo_cell, parent, false);
-        ImageViewHolder imageViewHolder = new ImageViewHolder(view);
-
-        return imageViewHolder;
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val currentItem = albums[position]
+        (holder as ImageViewHolder).itemView.setOnClickListener {
+            Toast.makeText(it.context, "Clicked", Toast.LENGTH_SHORT).show()
+        }
+        holder.bind(currentItem)
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        Image image = images.get(position);
-
-        holder.bind(image);
-    }
-
-    @Override
-    public int getItemCount() {
-        return images.size();
-    }
+    override fun getItemCount() = albums.size
 
 }

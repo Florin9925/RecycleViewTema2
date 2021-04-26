@@ -1,17 +1,3 @@
-package com.example.tema2_v3.models;
+package com.example.tema2_v3.models
 
-public class Image {
-    private String imageUrl;
-
-    public Image(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-}
+class Image(var imageUrl: String)

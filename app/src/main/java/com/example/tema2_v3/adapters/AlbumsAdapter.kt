@@ -1,50 +1,40 @@
-package com.example.tema2_v3.adapters;
+package com.example.tema2_v3.adapters
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
+import com.example.tema2_v3.R
+import com.example.tema2_v3.models.Album
+import java.util.*
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+class AlbumsAdapter(private val albums: ArrayList<Album>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-import com.example.tema2_v3.R;
-import com.example.tema2_v3.interfaces.OnAlbumItemClick;
-import com.example.tema2_v3.models.Album;
-import com.example.tema2_v3.viewholders.AlbumViewHolder;
+    class AlbumViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val titleView: TextView = itemView.findViewById(R.id.album_name)
 
-import java.util.ArrayList;
-
-public class AlbumsAdapter extends RecyclerView.Adapter<AlbumViewHolder> {
-    private Context context;
-    ArrayList<Album> albums;
-    public static OnAlbumItemClick onAlbumItemClick;
-
-    public AlbumsAdapter(ArrayList<Album> albums, OnAlbumItemClick onAlbumItemClick) {
-        this.albums = albums;
-        this.onAlbumItemClick = onAlbumItemClick;
+        fun bind(album: Album) {
+            titleView.text = album.name
+        }
     }
 
-    @NonNull
-    @Override
-    public AlbumViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.album_cell, parent, false);
-        AlbumViewHolder albumViewHolder = new AlbumViewHolder(view);
-
-        return albumViewHolder;
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val albumRvItemView = inflater.inflate(R.layout.album_cell, parent, false)
+        return AlbumViewHolder(albumRvItemView)
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull AlbumViewHolder holder, int position) {
-        Album album = albums.get(position);
-
-        holder.bind(album);
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val currentItem = albums[position]
+        (holder as AlbumViewHolder).itemView.setOnClickListener {
+            Toast.makeText(it.context, "Clicked", Toast.LENGTH_SHORT).show()
+        }
+        holder.bind(currentItem)
     }
 
-    @Override
-    public int getItemCount() {
-        return this.albums.size();
-    }
+    override fun getItemCount() = albums.size
+
 }

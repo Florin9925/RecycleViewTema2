@@ -2,79 +2,64 @@ package com.example.tema2_v3
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.tema2_v3.fragments.Fragment1
 import com.example.tema2_v3.fragments.Fragment2
 import com.example.tema2_v3.fragments.Fragment3
-import com.example.tema2_v3.interfaces.ActivityFragmentCommunication
-import com.example.tema2_v3.models.Post
-import com.example.tema2_v3.models.User
+import com.example.tema2_v3.interfaces.IActivityFragmentCommunication
 
-class MainActivity : AppCompatActivity(), ActivityFragmentCommunication {
-    val users: ArrayList<User> = ArrayList<User>()
+class MainActivity : AppCompatActivity(), IActivityFragmentCommunication {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        addFirstFragmentFragment()
-
+        replaceFragment(Fragment1::class.java.name)
     }
 
-    fun setUpRecyclerView() {
-
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerlist)
-        val layoutManager: LinearLayoutManager =
-            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        // val layoutManager: GridLayoutManager = GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
-        recyclerView.layoutManager = layoutManager
-        users.clear()
-        val posts: ArrayList<Post> = ArrayList<Post>();
-        posts.add(Post("1", "FirstPost", "test1"))
-        posts.add(Post("2", "SecondPost", "test2"))
-        posts.add(Post("3", "ThirdPost", "test3"))
-
-        users.add(User( "Tralala", posts))
-        // var adapter: MyAdapter = MyAdapter(users, )
-
-        // recyclerView.adapter = adapter
-
+    override fun openNextActivity() {
+        // EMPTY
     }
-    private fun addFirstFragmentFragment() {
-        val fragmentManager = supportFragmentManager
-        val transaction = fragmentManager.beginTransaction()
-        val firstFragment = Fragment1.newInstance("", "")
-        val tag = Fragment1::class.java.name
 
-        val addTransaction = transaction.add(
-            R.id.frame_layout, firstFragment, tag
-        )
-
-        //addTransaction.addToBackStack(tag)
-        addTransaction.commit()
-
+    override fun replaceFragment(tag: String) = when (tag) {
+        Fragment1::class.java.name -> {
+            addMainFragment()
+        }
+        Fragment2::class.java.name ->{
+            addSecondFragment()
+        }
+        Fragment3::class.java.name ->{
+            addThirdFragment()
+        }
+        else -> println("Invalid tag!")
     }
-    override fun replaceWithF2() {
-        val fragmentManager = supportFragmentManager
-        val transaction = fragmentManager.beginTransaction()
-        val tag = Fragment1::class.java.name
 
-        val replaceTransaction = transaction.add(
-            R.id.frame_layout, Fragment2.newInstance("", ""), tag
-        )
-        replaceTransaction.addToBackStack(tag)
-
-        replaceTransaction.commit()
-    }
-    override fun replaceWithF3() {
-        val fragmentManager = supportFragmentManager
+    private fun addSecondFragment() {
+        val fragmentManager = this.supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         val tag = Fragment2::class.java.name
-
-        val replaceTransaction = transaction.add(
-            R.id.frame_layout, Fragment3.newInstance("", ""), tag
+        val addTransaction = transaction.add(
+            R.id.fragment_container, Fragment2.newInstance(), tag
         )
-        replaceTransaction.addToBackStack(tag)
+        addTransaction.commit()
+    }
 
-        replaceTransaction.commit()
+    private fun addThirdFragment() {
+        val fragmentManager = this.supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        val tag = Fragment2::class.java.name
+        val addTransaction = transaction.add(
+            R.id.fragment_container, Fragment3.newInstance(), tag
+        )
+        addTransaction.commit()
+    }
+
+
+
+    private fun addMainFragment() {
+        val fragmentManager = this.supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        val tag = Fragment1::class.java.name
+        val addTransaction = transaction.add(
+            R.id.fragment_container, Fragment1.newInstance(), tag
+        )
+        addTransaction.commit()
     }
 }

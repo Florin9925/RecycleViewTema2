@@ -1,30 +1,12 @@
-package com.example.tema2_v3.models;
-import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
+package com.example.tema2_v3.models
 
-import android.os.Parcel;
+import android.os.Parcel
+import com.example.tema2_v3.interfaces.IExpandable
+import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 
-import java.util.List;
+data class User(val id: Int, val name: String): IExpandable {
 
-public class User extends ExpandableGroup<Post>  {
-
-    private List<Post> usersPosts;
-
-    public User(String title, List<Post> items) {
-        super(title, items);
-    }
-
-    protected User(Parcel in) {
-        super(in);
-    }
-
-
-    public List<Post> getUsersPosts() {
-        return usersPosts;
-    }
-
-    public void setUsersPosts(List<Post> usersPosts) {
-        this.usersPosts = usersPosts;
-    }
-
-
+    override fun getExpandableType(): ExpandableType = ExpandableType.USER
+    var posts: ArrayList<Post> = ArrayList<Post>()
+    var isExpanded = false
 }

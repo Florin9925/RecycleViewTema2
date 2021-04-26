@@ -5,4 +5,10 @@
     <string name="album">Album</string>
     <string name="post">Post</string>
     <string name="todo">TODO</string>
+
+
+    <string name="go_to_next_fragment">go to next fragment</string>
+    <string name="username">UserName</string>
+    <string name="body">Body</string>
+    <string name="title">Title</string>
 </resources>
