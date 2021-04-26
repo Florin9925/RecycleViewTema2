@@ -25,9 +25,9 @@ class MainActivity : AppCompatActivity(), IActivityFragmentCommunication {
         Fragment2::class.java.name ->{
             addSecondFragment()
         }
-        Fragment3::class.java.name ->{
-            addThirdFragment()
-        }
+//        Fragment3::class.java.name ->{
+//            addThirdFragment()
+//        }
         else -> println("Invalid tag!")
     }
 

@@ -17,6 +17,7 @@ import com.example.tema2_v3.interfaces.IActivityFragmentCommunication
 import com.example.tema2_v3.models.Album
 import com.example.tema2_v3.utils.Constants.ALBUMS_URL
 import com.example.tema2_v3.utils.Constants.ALBUM_TITLE
+import com.example.tema2_v3.utils.Constants.ALBUM_ID
 import com.example.tema2_v3.utils.Constants.BASE_URL
 import com.example.tema2_v3.utils.Constants.USERS_URL
 import com.example.tema2_v3.utils.VolleySingleton
@@ -49,15 +50,15 @@ class Fragment2(private val userId: Int) : Fragment() {
                 { response: String? ->
                     val albums = getAlbumsFromJSON(JSONArray(response))
 
-                    view.findViewById<RecyclerView>(R.id.albums_recyclerview).adapter = AlbumsAdapter(albums)
+                    view.findViewById<RecyclerView>(R.id.albums_recyclerview).adapter = AlbumsAdapter(albums, activity)
                     view.findViewById<RecyclerView>(R.id.albums_recyclerview).layoutManager = LinearLayoutManager(this.context)
                 },
                 { volleyError ->
 
                     val albums = ArrayList<Album>()
-                    albums.add(Album("$volleyError", ""))
+                    albums.add(Album("$volleyError", -1))
 
-                    view.findViewById<RecyclerView>(R.id.albums_recyclerview).adapter = AlbumsAdapter(albums)
+                    view.findViewById<RecyclerView>(R.id.albums_recyclerview).adapter = AlbumsAdapter(albums, activity)
                     view.findViewById<RecyclerView>(R.id.albums_recyclerview).layoutManager = LinearLayoutManager(this.context)
                 }
             )
@@ -72,7 +73,8 @@ class Fragment2(private val userId: Int) : Fragment() {
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
             val name = jsonObject.optString(ALBUM_TITLE)
-            albums.add(Album(name, ""))
+            val id = jsonObject.optInt(ALBUM_ID)
+            albums.add(Album(name, id))
         }
 
         return albums
